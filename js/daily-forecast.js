@@ -28,7 +28,7 @@ export default class Daily {
         html += dayHtml;
         html += `
         <div class="hourly-forecast">
-          <div class="trigger">Show hourly forecast ${this.icon.arrowDown}</div>
+          <div class="trigger text-center">Show hourly forecast ${this.icon.arrowDown}</div>
           <div class="content hidden">`;
         for(const [indexHour,hour] of dataHourly.entries()) {
           if(hour.dt>=this.startOfDay(day.dt) && hour.dt<=this.endOfDay(day.dt)) {
@@ -49,16 +49,13 @@ export default class Daily {
     if(day.dt>day.sunrise&&day.dt<day.sunset) this.isDay = 1;
     return `
       <div class="day" data-timestamp="${day.dt}">
+        ${this.#displayDayDate(index,day.dt)}
+
         <div class="row">
-          <div class="col">
-            ${this.#displayDayDate(index,day.dt)}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
+          <div class="col reset">
             <div class="weather-main ${day.weather[0].description.replace(/ /g, "-")}"></div>
           </div>
-          <div class="col">
+          <div class="col reset">
             <div class="weather-main ${day.weather[0].description.replace(/ /g, "-")}-night"></div>
           </div>
         </div>
@@ -85,36 +82,77 @@ export default class Daily {
             </div>
           </div>
         </div>
-
         <hr>
+        <div class="daily-details">
+          <div class="row">
+            <div class="col">
+              ${day.clouds?`
+              Clouds
+              <p>${day.clouds}${this.unit.percentage}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.humidity?`
+              Humidity
+              <p>${day.humidity}${this.unit.humidity}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.dew_point?`
+              Dew point
+              <p>${day.dew_point}${this.unit.temperature}</p>`:''}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              ${day.uvi?`
+              UVI
+              <p>${day.uvi}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.pop?`
+              Chance of rain (snow)
+              <p>${day.pop}${this.unit.percentage}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.rain?`
+              Rain
+              <p>${day.rain}mm</p>`:''}
+              ${day.snow?`
+              Snow
+              <p>${day.snow}mm</p>`:''}
+            </div>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col">
-            ${day.clouds?`<p>Clouds: ${day.clouds}${this.unit.percentage}</p>`:''}
-            ${day.visibility?`<p>Visibility: ${day.visibility/1000}${this.unit.distance}</p>`:''}
-            ${day.dew_point?`<p>Dew point: ${day.dew_point}${this.unit.temperature}</p>`:''}
-            ${day.uvi?`<p>UVI: ${day.uvi}</p>`:''}
+            ${day.moonrise?`
+            Moonrise
+            <p>${this.formatDate(day.moonrise).hour24}:${this.formatDate(day.moonrise).minute}</p>`:''}
           </div>
           <div class="col">
-            ${day.pop?`<p>Chance of rain (snow): ${day.pop}${this.unit.percentage}</p>`:''}
-            ${day.rain?`<p>Rain: ${day.rain}mm</p>`:''}
-            ${day.snow?`<p>Snow: ${day.snow}mm</p>`:''}
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            ${day.moonrise ? `<p>${this.icon.moonrise}Moonrise: ${this.formatDate(day.moonrise).hour24}:${this.formatDate(day.moonrise).minute}</p>`:''}
-            ${day.moonset ? `<p>${this.icon.moonset}Moonset: ${this.formatDate(day.moonset).hour24}:${this.formatDate(day.moonset).minute}</p>`:''}
-          </div>
-          <div class="col">
-            ${day.sunrise ? `<p>${this.icon.sunrise}Sunrise: ${this.formatDate(day.sunrise).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
-            ${day.sunset ? `<p>${this.icon.sunset}Sunset: ${this.formatDate(day.sunset).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
+            ${day.sunrise?`
+            Sunrise
+            <p>${this.formatDate(day.sunrise).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
           </div>
         </div>
+
         <div class="row">
           <div class="col">
-            ${day.moon_phase?`<p>Moon phase: ${this.moonPhase(day.moon_phase).emoji} ${this.moonPhase(day.moon_phase).name}</p>`:''}
+            ${day.moonset?`
+            Moonset
+            <p>${this.formatDate(day.moonset).hour24}:${this.formatDate(day.moonset).minute}</p>`:''}
+          </div>
+          <div class="col">
+            ${day.sunset?`
+            Sunset
+            <p>${this.formatDate(day.sunset).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            ${day.moon_phase?`<p>${this.moonPhase(day.moon_phase).emoji} ${this.moonPhase(day.moon_phase).name}</p>`:''}
           </div>
         </div>
       </div>
