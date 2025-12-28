@@ -99,10 +99,10 @@ class App {
     return {
       apiBase: 'https://api.openweathermap.org',
       apiVersion: '3.0',
-      apiKey: '0d9e81eb9ef01befe79a2face57b96e4',
+      apiKey: '',
       units: 'metric',
-      latitude: '53.5228',
-      longitude: '1.1323',
+      latitude: '',
+      longitude: '',
       timezone_offset: 0
     }
   }
