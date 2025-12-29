@@ -2,6 +2,7 @@ import Api from './api.js';
 import Locations from './locations.js';
 import Current from './current-weather.js';
 import Daily from './daily-forecast.js';
+import { data } from './data.js';
 
 class App {
   constructor() {
@@ -65,7 +66,7 @@ class App {
     //CURRENT WEATHER
     const currentData = await this.dataApi.getWeather(this.location);
     if(currentData) console.log("INITIAL CURRENT: ",currentData.current);
-    this.#displayCurrentWeather(currentData.current);
+    this.#displayCurrentWeather(currentData.current,currentData.daily[0]);
 
     //FORECAST DAILY WEATHER
     const forecastDailyData = await this.dataApi.getWeather(this.location);
@@ -77,7 +78,7 @@ class App {
     //CURRENT WEATHER
     const currentData = await this.dataApi.getWeather(this.location);
     if(currentData) console.log("UPDATED CURRENT: ",currentData.current);
-    this.#displayCurrentWeather(currentData.current);
+    this.#displayCurrentWeather(currentData.current,currentData.daily[0]);
 
     //FORECAST DAILY WEATHER
     const forecastDailyData = await this.dataApi.getWeather(this.location);
@@ -85,9 +86,9 @@ class App {
     this.#displayDailyForecast(forecastDailyData.daily,forecastDailyData.hourly);
 
   }
-  async #displayCurrentWeather(currentData) {
+  async #displayCurrentWeather(currentData,dayData) {
     const current = new Current(this.config);
-    const currentHtml = await current.display(currentData);
+    const currentHtml = await current.display(currentData,dayData);
     document.querySelector('#current').innerHTML = currentHtml;
   }
   async #displayDailyForecast(forecastDaily,forecastHourly) {
@@ -99,10 +100,10 @@ class App {
     return {
       apiBase: 'https://api.openweathermap.org',
       apiVersion: '3.0',
-      apiKey: '',
+      apiKey: data.api_key,
       units: 'metric',
-      latitude: '',
-      longitude: '',
+      latitude: data.latitude,
+      longitude: data.longitude,
       timezone_offset: 0
     }
   }

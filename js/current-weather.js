@@ -14,7 +14,7 @@ export default class Current {
     this.isDay = 0;
 
   }
-  async display(data) {
+  async display(data,dayData) {
     if(data.dt>data.sunrise&&data.dt<data.sunset) this.isDay = 1;
     return `
       <div class="current" style="background-color:${this.isDay==1?'#193d54ff':'#13111cff'}">
@@ -26,26 +26,18 @@ export default class Current {
         <div class="weather-main ${data.weather[0].description.replace(/ /g, "-")}${this.isDay==0?'-night':''}"></div>
 
 
-        <div class="row">
-          <div class="col">
-            <div class="text-center">
-              <p style="font-size:22px;">${data.weather[0].main}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="text-center">
-              ${this.#displayCurrentTemperature(data)}
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="text-center">
-              <p style="font-size:19px;">${data.weather[0].description}</p>
+        <div class="row main-weather">
+          <div class="col" style="box-shadow:2px 2px 20px rgba(0,0,0,0.3)">
+            <div class="text-center" style="width:90%;margin:auto;">
+              <p class="fs-8">${data.weather[0].main}</p>
+              <br>
+              <div class="flex flex-row justify-content-space-between align-items-center">
+                <span style="text-center">Min<p class="blue fs-3 m-0">${dayData.temp.min}${this.unit.temperature}</p></span>
+                <span>${this.#displayCurrentTemperature(data)}</span>
+                <span style="text-center">Max<p class="red fs-3 m-0">${dayData.temp.max}${this.unit.temperature}</p></span>
+              </div>
+              <br>
+              <p class="fs-6">${data.weather[0].description}</p>
             </div>
           </div>
         </div>
@@ -55,7 +47,7 @@ export default class Current {
             <div class="col">
               ${data.wind_deg?`
               Wind
-              <p class="pt-2"><span class="wind-rose">${this.#windRose(data.wind_deg)}</span></p>`:''}
+              <p class="pt-2 m-0"><span class="wind-rose">${this.#windRose(data.wind_deg)}</span></p>`:''}
             </div>
             <div class="col">
               ${data.humidity?`

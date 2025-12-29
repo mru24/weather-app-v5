@@ -52,11 +52,11 @@ export default class Daily {
         ${this.#displayDayDate(index,day.dt)}
 
         <div class="row">
-          <div class="col reset">
+          <div class="col reset" style="margin-right:-15px;position:relative;z-index:5;box-shadow:0 0 30px black;">
             <div class="weather-main ${day.weather[0].description.replace(/ /g, "-")}"></div>
           </div>
-          <div class="col reset">
-            <div class="weather-main ${day.weather[0].description.replace(/ /g, "-")}-night"></div>
+          <div class="col reset" style="margin-left:-15px;">
+            <div class="weather-main ${day.weather[0].description.replace(/ /g, "-")}-night" style="border-radius:0 inherit inherit 0"></div>
           </div>
         </div>
         <div class="row">
@@ -70,15 +70,17 @@ export default class Daily {
         <div class="row">
           <div class="col">
             <p>Temp (Feels like)</p>
+            <div class="text-left">
             ${this.#displayDayTemperature(index,day.temp,day.feels_like)}
+            </div>
           </div>
           <div class="col">
             <div class="text-center">
               ${this.#displayDayOverview(index,day.weather[0])}
               <br>
               ${day.wind_speed?`<p><span class="wind-rose p-2">${this.#windRose(index,day.wind_deg)}</span></p>
-              <p>Wind: ${this.windData(day.wind_speed)}</p>`:''}
-              ${day.wind_gust?`<p>Wind gusts: ${this.windData(day.wind_gust)}</p>`:''}
+              <p>Wind: <span class="fs-3">${this.windData(day.wind_speed)}</span></p>`:''}
+              ${day.wind_gust?`<p>Wind gusts: <span class="fs-3">${this.windData(day.wind_gust)}</span></p>`:''}
             </div>
           </div>
         </div>
@@ -122,37 +124,37 @@ export default class Daily {
               <p>${day.snow}mm</p>`:''}
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            ${day.moonrise?`
-            Moonrise
-            <p>${this.formatDate(day.moonrise).hour24}:${this.formatDate(day.moonrise).minute}</p>`:''}
+          <div class="row">
+            <div class="col">
+              ${day.moonrise?`
+              Moonrise
+              <p>${this.formatDate(day.moonrise).hour24}:${this.formatDate(day.moonrise).minute}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.sunrise?`
+              Sunrise
+              <p>${this.formatDate(day.sunrise).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
+            </div>
           </div>
-          <div class="col">
-            ${day.sunrise?`
-            Sunrise
-            <p>${this.formatDate(day.sunrise).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            ${day.moonset?`
-            Moonset
-            <p>${this.formatDate(day.moonset).hour24}:${this.formatDate(day.moonset).minute}</p>`:''}
+          <div class="row">
+            <div class="col">
+              ${day.moonset?`
+              Moonset
+              <p>${this.formatDate(day.moonset).hour24}:${this.formatDate(day.moonset).minute}</p>`:''}
+            </div>
+            <div class="col">
+              ${day.sunset?`
+              Sunset
+              <p>${this.formatDate(day.sunset).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
+            </div>
           </div>
-          <div class="col">
-            ${day.sunset?`
-            Sunset
-            <p>${this.formatDate(day.sunset).hour24}:${this.formatDate(day.sunrise).minute}</p>`:''}
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            ${day.moon_phase?`<p>${this.moonPhase(day.moon_phase).emoji} ${this.moonPhase(day.moon_phase).name}</p>`:''}
+          <div class="row">
+            <div class="col">
+              ${day.moon_phase?`<p><span class="fs-7 mr-1">${this.moonPhase(day.moon_phase).emoji}</span> ${this.moonPhase(day.moon_phase).name}</p>`:''}
+            </div>
           </div>
         </div>
       </div>
@@ -171,17 +173,17 @@ export default class Daily {
   #displayDayTemperature(index,temp,feels_like) {
     return `
       ${temp.day ?
-        `<p>Day: ${this.tempData(temp.day)} ${feels_like.day ?`(${this.tempData(feels_like.day)})`:''}</p>`:''}
+        `<p>Day ${this.tempData(temp.day)} ${feels_like.day ?`(${this.tempData(feels_like.day)})`:''}</p>`:''}
       ${temp.min ?
-        `<p>Min: ${this.tempData(temp.min)} ${feels_like.min ?`(${this.tempData(feels_like.min)})`:''}</p>`:''}
+        `<p>Min ${this.tempData(temp.min)} ${feels_like.min ?`(${this.tempData(feels_like.min)})`:''}</p>`:''}
       ${temp.max ?
-        `<p>Max: ${this.tempData(temp.max)} ${feels_like.max ?`(${this.tempData(feels_like.max)})`:''}</p>`:''}
+        `<p>Max ${this.tempData(temp.max)} ${feels_like.max ?`(${this.tempData(feels_like.max)})`:''}</p>`:''}
       ${temp.morn ?
-        `<p>Morning: ${this.tempData(temp.morn)} ${feels_like.morn ?`(${this.tempData(feels_like.morn)})`:''}</p>`:''}
+        `<p>Morn ${this.tempData(temp.morn)} ${feels_like.morn ?`(${this.tempData(feels_like.morn)})`:''}</p>`:''}
       ${temp.eve ?
-        `<p>Evening: ${this.tempData(temp.eve)} ${feels_like.eve ?`(${this.tempData(feels_like.eve)})`:''}</p>`:''}
+        `<p>Eve ${this.tempData(temp.eve)} ${feels_like.eve ?`(${this.tempData(feels_like.eve)})`:''}</p>`:''}
       ${temp.night ?
-        `<p>Night: ${this.tempData(temp.night)} ${feels_like.night ?`(${this.tempData(feels_like.night)})`:''}</p>`:''}
+        `<p>Night ${this.tempData(temp.night)} ${feels_like.night ?`(${this.tempData(feels_like.night)})`:''}</p>`:''}
     `;
   }
   #displayDayOverview(index,info) {

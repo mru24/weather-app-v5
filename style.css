@@ -16,6 +16,7 @@ body {
   font-family: sans-serif;
   background-color: var(--bg);
   color: var(--txt);
+  font-size: 15px;
 }
 #app {
   padding: 15px 10px;
@@ -30,10 +31,11 @@ body {
   border-radius: 12px;
   margin: 3px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  flex-direction: column;
+  text-align: center;
 }
 .row > .col.reset {
   display: block;
@@ -51,6 +53,12 @@ body {
 .p-2 {
   padding: 10px;
 }
+.m-0 {
+  margin: 0;
+}
+.mr-1 {
+  margin-right: 5px;
+}
 .text-center {
   text-align: center;
 }
@@ -66,14 +74,49 @@ body {
 .blue {
   color: #00BFFF;
 }
+.fs-2 {
+  font-size: 16px;
+}
+.fs-3 {
+  font-size: 17px;
+}
+.fs-4 {
+  font-size: 18px;
+}
+.fs-5 {
+  font-size: 19px;
+}
+.fs-6 {
+  font-size: 21px;
+}
+.fs-7 {
+  font-size: 23px;
+}
+.fs-8 {
+  font-size: 25px;
+}
+
+/* FLEX */
 .flex {
   display: flex;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
 }
 .align-content-center {
   align-items: center;
 }
+.align-items-center {
+  align-items:center
+}
 .justify-content-center {
   justify-content: center;
+}
+.justify-content-space-between {
+  justify-content:space-between;
 }
 .border-bottom-white {
   border-bottom: 2px solid white;
@@ -93,6 +136,7 @@ hr {
 p {
   margin: 6px 0;
   line-height: 1.5;
+  font-size: 15px;
 }
 h1,h2,h3,h4,h5 {
   margin: 5px 0;
@@ -151,6 +195,20 @@ h1,h2,h3,h4,h5 {
 }
 .current .weather-main {
   height: 90px;
+}
+.current .main-weather {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  margin: 20px 0;
+}
+.current .main-weather .col {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 .current h1 span {
   font-size: 40px;
@@ -211,7 +269,7 @@ h1,h2,h3,h4,h5 {
 .current .current-details p,
 .daily-forecast .daily-details p,
 .hour-item .hourly-details p {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: bold;
 }
 

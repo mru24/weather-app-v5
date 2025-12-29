@@ -48,7 +48,7 @@ export default class Hourly {
             <div class="col">
               ${hour.wind_deg?`
               Wind
-              <p class="pt-2"><span class="wind-rose">${this.#windRose(hour.wind_deg)}</span></p>`:''}
+              <p class="pt-2 m-0"><span class="wind-rose">${this.#windRose(hour.wind_deg)}</span></p>`:''}
             </div>
             <div class="col">
               ${hour.dew_point?`
