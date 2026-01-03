@@ -160,6 +160,32 @@ export default class Daily {
       </div>
     `;
   }
+  async displayOverview(dataDaily) {
+    let html = '';
+    html += `
+    <div class="daily-overview">`;
+      for(const [indexDay,day] of dataDaily.entries()) {
+        if(indexDay>0) {
+          html += `
+        <div class="day text-center">
+          <p class="fs-4">
+            ${(this.formatDate(day.dt).day).slice(0, 3)}
+          </p>
+          <p style="overflow:hidden;">
+            <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" width="80" style="margin:-15px;" />
+          </p>
+          <p class="fs-4">
+            ${day.temp.max}${this.unit.temperature}<br>
+            ${day.temp.min}${this.unit.temperature}
+          </p>
+        </div>
+          `;
+        };
+      }
+    html += `
+    </div>`;
+    return html;
+  }
   #displayDayDate(index,timestamp) {
     let day = this.formatDate(timestamp).day;
     if(index===0) day = `<span style="font-size:19px;">Today</span> ${this.formatDate(timestamp).day}`;
@@ -192,7 +218,7 @@ export default class Daily {
       html+=`
         <h2>${info.main}</h2>
         <p>
-          <img src="https://openweathermap.org/img/wn/${info.icon}@2x.png" width="80" />
+          <img src="https://openweathermap.org/img/wn/${info.icon}@2x.png" width="120" />
         </p>
         <p>${info.description}</p>
       `;
@@ -200,7 +226,7 @@ export default class Daily {
       html+=`
         <h4>${info.main}</h4>
         <p>
-          <img src="https://openweathermap.org/img/wn/${info.icon}.png" />
+          <img src="https://openweathermap.org/img/wn/${info.icon}.png" width="100" />
         </p>
         <p>${info.description}</p>
       `;

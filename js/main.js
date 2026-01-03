@@ -51,11 +51,8 @@ class App {
         } else {
           e.target.nextElementSibling.classList.add('active');
           e.target.innerHTML = 'Hide hourly forecast <span class="icon" style="font-size: 20px;">⏫</span>';
-
         };
-
       };
-
     });
   }
   async #callSearchApi(query,config) {
@@ -72,7 +69,6 @@ class App {
     const forecastDailyData = await this.dataApi.getWeather(this.location);
     if(forecastDailyData) console.log("INITIAL DAILY: ",forecastDailyData.daily,forecastDailyData.hourly);
     this.#displayDailyForecast(forecastDailyData.daily,forecastDailyData.hourly);
-
   }
   async #updateWeather() {
     //CURRENT WEATHER
@@ -84,7 +80,6 @@ class App {
     const forecastDailyData = await this.dataApi.getWeather(this.location);
     if(forecastDailyData) console.log("UPDATED DAILY: ",forecastDailyData.daily,forecastDailyData.hourly);
     this.#displayDailyForecast(forecastDailyData.daily,forecastDailyData.hourly);
-
   }
   async #displayCurrentWeather(currentData,dayData) {
     const current = new Current(this.config);
@@ -95,6 +90,11 @@ class App {
     const daily = new Daily(this.config);
     const dailyHtml = await daily.display(forecastDaily,forecastHourly);
     document.querySelector('#forecast').innerHTML = dailyHtml;
+
+    const dailyOverviewHtml = await daily.displayOverview(forecastDaily);
+    console.log("daily overview: ", dailyOverviewHtml);
+
+    document.querySelector('#forecast-overview').innerHTML = dailyOverviewHtml;
   }
   #config() {
     return {

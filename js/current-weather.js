@@ -17,107 +17,55 @@ export default class Current {
   async display(data,dayData) {
     if(data.dt>data.sunrise&&data.dt<data.sunset) this.isDay = 1;
     return `
-      <div class="current" style="background-color:${this.isDay==1?'#193d54ff':'#13111cff'}">
-        <div class="row">
-          <div class="col flex align-content-center justify-content-center px-2">
-            ${this.#displayCurrentDateTime(data.dt)}
+      <div class="current ${data.weather[0].description.replace(/ /g, "-")}${this.isDay==0?'-night':''} ${this.isDay==1?'day':'night'}">
+        ${data.dt?
+          `
+          <div class="row date">
+            <div class="col reset">
+              <span class="fs-5">Today</span> ${this.#displayCurrentDateTime(data.dt)}
+            </div>
           </div>
-        </div>
-        <div class="weather-main ${data.weather[0].description.replace(/ /g, "-")}${this.isDay==0?'-night':''}"></div>
-
-
+          `:
+          ''
+        }
+        <hr>
         <div class="row main-weather">
-          <div class="col" style="box-shadow:2px 2px 20px rgba(0,0,0,0.3)">
-            <div class="text-center" style="width:90%;margin:auto;">
+          <div class="col" style="">
+            <div class="text-center" style="width:94%;margin:auto;">
               <p class="fs-8">${data.weather[0].main}</p>
-              <br>
-              <div class="flex flex-row justify-content-space-between align-items-center">
-                <span style="text-center">Min<p class="blue fs-3 m-0">${dayData.temp.min}${this.unit.temperature}</p></span>
-                <span>${this.#displayCurrentTemperature(data)}</span>
-                <span style="text-center">Max<p class="red fs-3 m-0">${dayData.temp.max}${this.unit.temperature}</p></span>
+
+              <div class="row">
+                <div class="col border-radius-xxl bg-dark">
+                  <span>${this.#displayCurrentTemperature(data)}</span>
+                </div>
+                <div class="col border-radius-xxl bg-dark">
+                  <p style="overflow:hidden;">
+                    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" width="160" style="margin:-25px;" />
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col border-radius-xxl bg-dark px-4">
+                  <span style="text-center">Min<p class="blue fs-3 m-0">${dayData.temp.min}${this.unit.temperature}</p></span>
+                </div>
+                <div class="col border-radius-xxl bg-dark px-4">
+                  <span style="text-center">Max<p class="red fs-3 m-0">${dayData.temp.max}${this.unit.temperature}</p></span>
+                </div>
               </div>
               <br>
               <p class="fs-6">${data.weather[0].description}</p>
+              <br>
             </div>
           </div>
         </div>
-
-        <div class="current-details">
-          <div class="row">
-            <div class="col">
-              ${data.wind_deg?`
-              Wind
-              <p class="pt-2 m-0"><span class="wind-rose">${this.#windRose(data.wind_deg)}</span></p>`:''}
-            </div>
-            <div class="col">
-              ${data.humidity?`
-              Humidity
-              <p>${data.humidity}${this.unit.humidity}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.clouds?`
-              Clouds
-              <p>${data.clouds}${this.unit.percentage}</p>`:''}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              ${data.wind_speed?`
-              Speed
-              <p>${this.windData(data.wind_speed)}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.pressure?`
-              Pressure
-              <p>${data.pressure}${this.unit.pressure}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.visibility?`
-              Visibility
-              <p>${data.visibility/1000}${this.unit.distance}</p>`:''}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              ${data.wind_gust?`
-              Gusts
-              <p>${this.windData(data.wind_gust)}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.uvi?`
-              UVI:
-              <p>${data.uvi}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.dew_point?`
-              Dew point
-              <p>${data.dew_point}${this.unit.temperature}</p>`:''}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              ${data.sunrise?`
-              Sunrise
-              <p>${this.formatDate(data.sunrise).hour24}:${this.formatDate(data.sunrise).minute}</p>`:''}
-            </div>
-            <div class="col">
-              ${data.sunset?`
-              Sunset
-              <p>${this.formatDate(data.sunset).hour24}:${this.formatDate(data.sunrise).minute}</p>`:''}
-            </div>
-          </div>
-        </div>
+        <div id="forecast-overview"></div>
       <div>
     `;
   }
   #displayCurrentDateTime(timestamp) {
     return `
-      ${this.formatDate(timestamp).fullDate}
+      <p class="fs-4">${this.formatDate(timestamp).fullDate}</p>
       ${this.formatDate(timestamp).hour24}:${this.formatDate(timestamp).minute}
-      ${this.formatDate(timestamp).ampm}
     `;
   }
   #displayCurrentTemperature(data) {
