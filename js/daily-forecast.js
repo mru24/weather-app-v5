@@ -48,7 +48,7 @@ export default class Daily {
   async #displayDayForecast(index,day) {
     if(day.dt>day.sunrise&&day.dt<day.sunset) this.isDay = 1;
     return `
-      <div class="day" data-timestamp="${day.dt}">
+      <div class="day" data-timestamp="${day.dt}" id="${day.dt}">
         ${this.#displayDayDate(index,day.dt)}
 
         <div class="row">
@@ -168,16 +168,18 @@ export default class Daily {
         if(indexDay>0) {
           html += `
         <div class="day text-center">
-          <p class="fs-4">
-            ${(this.formatDate(day.dt).day).slice(0, 3)}
-          </p>
-          <p style="overflow:hidden;">
-            <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" width="80" style="margin:-15px;" />
-          </p>
-          <p class="fs-4">
-            ${day.temp.max}${this.unit.temperature}<br>
-            ${day.temp.min}${this.unit.temperature}
-          </p>
+          <a href="#${day.dt}">
+            <p class="fs-4">
+              ${(this.formatDate(day.dt).day).slice(0, 3)}
+            </p>
+            <p style="overflow:hidden;">
+              <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" width="80" style="margin:-15px;" />
+            </p>
+            <p class="fs-4">
+              ${day.temp.max}${this.unit.temperature}<br>
+              ${day.temp.min}${this.unit.temperature}
+            </p>
+          </a>
         </div>
           `;
         };
